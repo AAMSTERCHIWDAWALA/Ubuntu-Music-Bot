@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "repl_python3_music-bot-1"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <ritik0ranjan@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+youtube_dl = "^2021.6.6"
+jishaku = "^2.3.1"
+"discord.py" = {git = "https://github.com/Rapptz/discord.py"}
+PyNaCl = "^1.4.0"
+pycparser = "^2.21"
+cffi = "^1.15.0"
+aiofiles = "^0.7.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
