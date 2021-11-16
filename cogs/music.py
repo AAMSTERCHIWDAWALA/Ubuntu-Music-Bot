@@ -295,7 +295,7 @@ class Music(Cog):
     @property
     def display_emoji(self) -> discord.PartialEmoji:
         return discord.PartialEmoji(name='\N{MULTIPLE MUSICAL NOTES}')
-  
+
     def get_voice_state(self, ctx: Context):
         state = self.voice_states.get(ctx.guild.id)
         if not state:
@@ -322,16 +322,22 @@ class Music(Cog):
                                 error: commands.CommandError):
         await ctx.send('An error occurred: {}'.format(str(error)))
 
+    @commands.bot_has_guild_permissions(connect=True, speak=True)
     @commands.command(name='join', invoke_without_subcommand=True)
     async def _join(self, ctx: Context):
         """Joins a voice channel."""
 
         destination = ctx.author.voice.channel
         if ctx.voice_state.voice:
-            await ctx.voice_state.voice.move_to(destination)
-            return
-
-        ctx.voice_state.voice = await destination.connect()
+            try:
+                await ctx.voice_state.voice.move_to(destination)
+                return
+            except Exception:
+                pass
+        try:
+            ctx.voice_state.voice = await destination.connect()
+        except Exception:
+            pass
 
     @commands.command(name='summon')
     @commands.has_permissions(manage_guild=True)
@@ -379,7 +385,7 @@ class Music(Cog):
         ctx.voice_state.volume = volume / 100
         await ctx.send('Volume of the player set to {}%'.format(volume))
 
-    @commands.command(name='now', aliases=['current', 'playing'])
+    @commands.command(name='now', aliases=['current', 'playing', 'np'])
     async def _now(self, ctx: Context):
         """Displays the currently playing song."""
 
